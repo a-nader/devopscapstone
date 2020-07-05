@@ -5,7 +5,7 @@ pipeline {
             steps {
                 echo 'Hello world from jenkins file!' 
                 sh("aws --version")
-                withAWS(region:'us-west-2c', credentials:'awsnew') 
+                withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
                     sh '''
                         /usr/local/bin/eksctl version
