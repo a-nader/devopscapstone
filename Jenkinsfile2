@@ -26,7 +26,6 @@ pipeline {
 				--node-ami ami-0e34e7b9ca0ace12d \
 				--nodes-min=1 \
 				--nodes-max=3 \
-				--managed  \
 				--auto-kubeconfig
 				'''
 
