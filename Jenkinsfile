@@ -8,7 +8,7 @@ pipeline {
                 withAWS(region:'us-west-2c', credentials:'awsnew') 
                    {
                     sh '''
-                        eksctl version
+                        /usr/local/bin/eksctl version
                        '''
                    }
                 }
