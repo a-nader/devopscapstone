@@ -11,7 +11,17 @@ pipeline {
                         /usr/local/bin/eksctl version
                        '''
                    }
-                }
+               }
+        }
+        stage('Stage2 test docker') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockers']])
+                {
+					sh '''
+						docker build -t anadersalem/devopscapstone-pro .
+					'''
+				}
+			}
         }
     }
 }
