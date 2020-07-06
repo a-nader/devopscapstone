@@ -20,7 +20,7 @@ pipeline {
 					withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
                     sh '''
-                        eksctl create cluster --name=capstonepro \
+                        /usr/local/bin/eksctl create cluster --name=capstone-pro \
 						--region=us-west-2 \
 						--zones=us-west-2a,us-west-2b,us-west-2c \
 						--nodes=2
