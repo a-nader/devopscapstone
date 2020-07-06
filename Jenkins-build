@@ -1,0 +1,37 @@
+pipeline {
+	agent any
+	stages {
+
+		stage('lint html using tidy ') {
+			steps {
+				dir ('/home/ec2-user/capstone'){
+			    sh 'uname -a'
+			    sh 'id'
+				sh 'tidy -q -e *.html'
+			}
+			}
+		}
+		
+		stage('Docker image build') {
+			steps {
+				dir ('/home/ec2-user/capstone'){
+				
+					sh '''
+					 docker build --tag anadersalem/devopscapstone-pro .
+					'''
+				}
+			}
+		}
+
+		stage('Docker image push') {
+			steps {
+				withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockers', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]){
+					sh '''
+						docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+						docker push anadersalem/devopscapstone-pro
+					'''
+				}
+			}
+		}
+	}
+}
