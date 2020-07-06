@@ -34,7 +34,7 @@ pipeline {
                        '''
 					
 					sh '''
-						aws eks update-kubeconfig --name capstonepro
+						aws eks update-kubeconfig --name capstone-stack
 					   '''
 				   }
 		
