@@ -1,0 +1,47 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Validating prequisites') {
+            steps {
+                echo 'Testing prequisites... ' 
+                sh("aws --version")
+                withAWS(region:'us-west-2', credentials:'awsnew') 
+                   {
+                    sh '''
+                        /usr/local/bin/eksctl version
+						/usr/local/bin/kubectl version
+                       '''
+                   }
+               }
+        }
+		
+		stage('Creating eks stack cluster') {
+			steps {
+					withAWS(region:'us-west-2', credentials:'awsnew') 
+                   {
+                    sh '''
+                        eksctl create cluster --name=capstonepro \
+						--region=us-west-2 \
+						--zones=us-west-2a,us-west-2b,us-west-2c \
+						--nodes=2
+						--node-type t2.small \
+						--node-ami ami-0e34e7b9ca0ace12d \
+						--nodes-min=1 \
+						--nodes-max=3 \
+						--ssh-access \
+						--ssh-public-key ~/.ssh/id_rsa.pub \
+						--auto-kubeconfig
+                       '''
+					
+					sh '''
+						aws eks update-kubeconfig --name capstonepro
+					   '''
+				   }
+		
+		
+		
+				}
+		
+		}
+		}
+}
