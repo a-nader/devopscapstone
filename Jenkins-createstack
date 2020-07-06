@@ -29,7 +29,7 @@ pipeline {
 						--nodes-min=1 \
 						--nodes-max=3 \
 						--ssh-access \
-						--ssh-public-key id_rsa.pub \
+						--ssh-public-key ~/id_rsa.pub \
 						--auto-kubeconfig
                        '''
 					
