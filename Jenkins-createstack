@@ -9,7 +9,7 @@ pipeline {
                    {
                     sh '''
                         /usr/local/bin/eksctl version
-						/usr/local/bin/kubectl version
+					
                        '''
                    }
                }
