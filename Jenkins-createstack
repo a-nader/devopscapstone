@@ -20,7 +20,7 @@ pipeline {
 					withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
                     sh '''
-                        /usr/local/bin/eksctl create cluster --name=capstone-pro2 \
+                        /usr/local/bin/eksctl create cluster --name=capstone-stack \
 						--region=us-west-2 \
 						--zones=us-west-2a,us-west-2b,us-west-2c \
 						--nodes=2 \
@@ -29,7 +29,7 @@ pipeline {
 						--nodes-min=1 \
 						--nodes-max=3 \
 						--ssh-access \
-						--ssh-public-key ~/.ssh/id_rsa.pub \
+						--ssh-public-key /home/ec2-user/.ssh/id_rsa.pub \
 						--auto-kubeconfig
                        '''
 					
