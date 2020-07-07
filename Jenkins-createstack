@@ -21,25 +21,15 @@ pipeline {
 				withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
 				  
-                    sh '''
-                        /usr/local/bin/eksctl create cluster --name=capstonepro2 \
-						--region=us-west-2 \
-						--zones=us-west-2a,us-west-2b,us-west-2c \
-						--nodes=2 \
-						--node-type t2.small \
-						--node-ami ami-0e34e7b9ca0ace12d \
-						--nodes-min=1 \
-						--nodes-max=3 \
-						--ssh-access \
-						--ssh-public-key id_rsa.pub \
-						--auto-kubeconfig
-                       '''
+                    		sh '''
+				/usr/local/bin/eksctl  create cluster --name capstonepro --nodegroup-name projectgroup --region us-west-2 --nodes 2 --nodes-min 1 --nodes-max 2 --ssh-access --ssh-public-key id_rsa.pub --managed --auto-kubeconfig
+                       		'''
 					
-					sh '''
-						aws eks update-kubeconfig --name capstonepro2
-						/usr/local/bin/kubectl get cluster 
-						/usr/local/bin/kubectl get nodes
-					   '''
+				sh '''
+				aws eks update-kubeconfig --name capstonepro2
+				/usr/local/bin/kubectl get cluster 
+				/usr/local/bin/kubectl get nodes
+				  '''
 				   }
 				   }
 		
