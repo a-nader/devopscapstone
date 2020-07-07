@@ -9,7 +9,7 @@ pipeline {
                    {
                     sh '''
                         /usr/local/bin/eksctl version
-					
+#						/usr/local/bin/kubectl version --short
                        '''
                    }
                }
@@ -19,23 +19,27 @@ pipeline {
 			steps {
 					withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
+				   dir ('/home/ec2-user'){
                     sh '''
-                        /usr/local/bin/eksctl create cluster --name=capstone-stack \
+                        /usr/local/bin/eksctl create cluster --name=capstonepro \
 						--region=us-west-2 \
 						--zones=us-west-2a,us-west-2b,us-west-2c \
-						--nodes=2 \
+						--nodes=2
 						--node-type t2.small \
 						--node-ami ami-0e34e7b9ca0ace12d \
 						--nodes-min=1 \
 						--nodes-max=3 \
 						--ssh-access \
-						--ssh-public-key ~/id_rsa.pub \
+						--ssh-public-key .ssh/id_rsa.pub \
 						--auto-kubeconfig
                        '''
 					
 					sh '''
-						aws eks update-kubeconfig --name capstone-stack
+						aws eks update-kubeconfig --name capstonepro
+						/usr/local/bin/kubectl get cluster 
+						/usr/local/bin/kubectl get nodes
 					   '''
+				   }
 				   }
 		
 		
