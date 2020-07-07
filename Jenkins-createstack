@@ -17,9 +17,10 @@ pipeline {
 		
 		stage('Creating eks stack cluster') {
 			steps {
-					withAWS(region:'us-west-2', credentials:'awsnew') 
+				 dir ('/home/ec2-user'){
+				withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
-				   dir ('/home/ec2-user'){
+				  
                     sh '''
                         /usr/local/bin/eksctl create cluster --name=capstonepro \
 						--region=us-west-2 \
