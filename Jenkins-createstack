@@ -17,7 +17,7 @@ pipeline {
 		
 		stage('Creating eks stack cluster') {
 			steps {
-				 dir ('/home/ec2-user'){
+				 dir ('/home/ec2-user/capstone'){
 				withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
 				  
@@ -31,7 +31,7 @@ pipeline {
 						--nodes-min=1 \
 						--nodes-max=3 \
 						--ssh-access \
-						--ssh-public-key .ssh/id_rsa.pub \
+						--ssh-public-key id_rsa.pub \
 						--auto-kubeconfig
                        '''
 					
