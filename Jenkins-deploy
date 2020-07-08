@@ -1,0 +1,82 @@
+pipeline {
+	agent any
+	stages {
+	    stage('Creating PODs') {
+            steps {
+                dir ('/home/ec2-user/capstone'){
+                withAWS(region:'us-west-2', credentials:'awsnew') 
+                   {
+                    sh '''
+                        #/usr/local/bin/eksctl version
+						/usr/local/bin/kubectl apply -f create_pods.json
+                       '''
+                   }
+               }
+                
+            }
+        }
+        stage('Deploying Green') {
+            steps {
+            
+                dir ('/home/ec2-user/capstone'){
+                withAWS(region:'us-west-2', credentials:'awsnew') 
+                   {
+                    sh '''
+                        #/usr/local/bin/eksctl version
+						/usr/local/bin/kubectl apply -f Deploy_Green.json
+                       '''
+                   }
+               }
+                
+            }
+        }
+	
+	    stage ('Verification and deploy blue') {
+	       steps {
+	        script 
+	        {
+            def userInput
+            try {
+                userInput = input(
+                    id: 'Proceed1', message: 'UAT successful?', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']
+                    ])
+            } catch(err) { // input false
+                def user = err.getCauses()[0].getUser()
+                userInput = false
+                echo "Aborted by: [${user}]"
+            }
+	        
+                if (userInput == true) {
+                    // do something
+                    echo "Green was successful. Deploying blue...."
+                            dir ('/home/ec2-user/capstone'){
+                withAWS(region:'us-west-2', credentials:'awsnew') 
+                   {
+                    sh '''
+                        #/usr/local/bin/eksctl version
+						/usr/local/bin/kubectl apply -f Deploy_Blue.json
+                       '''
+                   }
+               }
+                    
+            
+                    
+               
+               
+               
+                } else {
+                    // do something else
+                    echo "this was not successful"
+                    currentBuild.result = 'FAILURE'
+                } 
+	        }
+	       } 
+	        
+	    }
+	    
+	    
+	    
+	    
+	}
+}
