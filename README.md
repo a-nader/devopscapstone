@@ -5,4 +5,4 @@ steps:
 3- configure jenkins pipeline to create eks cluster using create cluster jenkinsfile "Jenkins-createstack" [included]
 4- create docker file to build ngnix image with sample html file "Dockerfile" [included]
 5- build image upload to docker hub public repo using jenkins pipleline with linting code validation step "Jenkins-build" [included]
-6- deploy on kubernetes cluster blue/green using jenkins pipeline "Jenkins-deploy" [included]
+6- deploy on kubernetes cluster blue/green using jenkins pipeline and execute curl testing step & user verification before proceeding on other one "Jenkins-deploy" [included]
