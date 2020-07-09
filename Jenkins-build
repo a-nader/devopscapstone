@@ -17,7 +17,7 @@ pipeline {
 				dir ('/home/ec2-user/capstone'){
 				
 					sh '''
-					 docker build --tag anadersalem/devopscapstone-pro .
+					 docker build --tag anadersalem/devopscapstone-pro:latest .
 					'''
 				}
 			}
