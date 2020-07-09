@@ -1,21 +1,21 @@
 pipeline {
 	agent any
 	stages {
-	    stage('Creating PODs') {
+	    stage('Deploying...') {
             steps {
                 dir ('/home/ec2-user/capstone'){
                 withAWS(region:'us-west-2', credentials:'awsnew') 
                    {
                     sh '''
                         #/usr/local/bin/eksctl version
-						/usr/local/bin/kubectl apply -f create_pods.json
+						/usr/local/bin/kubectl apply -f Deploy_Green.json
                        '''
                    }
                }
                 
             }
         }
-        stage('Deploying Green') {
+        stage('Switch to Green') {
             steps {
             
                 dir ('/home/ec2-user/capstone'){
@@ -23,7 +23,7 @@ pipeline {
                    {
                     sh '''
                         #/usr/local/bin/eksctl version
-						/usr/local/bin/kubectl apply -f Deploy_Green.json
+						/usr/local/bin/kubectl apply -f Switch_Green.json
                        '''
                    }
                }
@@ -56,6 +56,7 @@ pipeline {
                     sh '''
                         #/usr/local/bin/eksctl version
 						/usr/local/bin/kubectl apply -f Deploy_Blue.json
+						/usr/local/bin/kubectl apply -f Switch_Blue.json
                        '''
                    }
                }
