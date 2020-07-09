@@ -24,6 +24,7 @@ pipeline {
                     sh '''
                         #/usr/local/bin/eksctl version
 						/usr/local/bin/kubectl apply -f Switch_Green.json
+						curl ab297d7ed70074e8496b72a11c30e700-362998693.us-west-2.elb.amazonaws.com:8000
                        '''
                    }
                }
